@@ -1,26 +1,22 @@
 import React, { useCallback, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import Loading from '../components/Loading'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { getCountries } from '../actions/getCountries'
 import ListCountries from '../components/countries/ListCountries'
 
 export default function HomeScreen() {
-    const [startCountries, setStartCountries] = useState(null)
+    const [startCountries, setStartCountries] = useState(0)
     const [countries, setCountries] = useState([])
     const [loading, setLoading] = useState(false)
-
-    //console.log("Paises: ", countries)
-
+    const navigation = useNavigation();
     useFocusEffect(
         useCallback(() => {
             async function fetchData() {
                 setLoading(true)
-                const respuesta = await getCountries({ offset: 0 })
-                // console.log(respuesta.countries[0].paises)
-                // console.log("NUEVO2")
+                const respuesta = await getCountries({ offset: startCountries })
                 if (respuesta.statusResponse) {
-                    setStartCountries(respuesta.startCountries)
+                    setStartCountries(startCountries + 10)
                     setCountries(respuesta.countries[0].paises)
                 }
                 setLoading(false)
@@ -29,11 +25,24 @@ export default function HomeScreen() {
         }, [])
     )
 
+    const handleLoadMore = async () => {
+        if (!startCountries) {
+            return
+        }
+        setLoading(true)
+        const respuesta = await getCountries({ offset: startCountries })
+        if (respuesta.statusResponse) {
+            setStartCountries(startCountries + 10)
+            setCountries([...countries, ...respuesta.countries[0].paises])
+        }
+        setLoading(false)
+    }
+
     return (
-        <View>
+        <View style={styles.home}>
             {
                 countries.length > 0 ? (
-                    <ListCountries countries={countries} navigation="" />
+                    <ListCountries countries={countries} navigation={navigation} handleLoadMore={handleLoadMore} />
                 ) : (
                     <View style={styles.notFoundView}>
                         <Text style={styles.notFoundText}>No hay paises registrados.</Text>
@@ -46,6 +55,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+    home: {
+        backgroundColor: '#EDF7F3',
+    },
     notFoundView: {
         flex: 1,
         justifyContent: 'center',

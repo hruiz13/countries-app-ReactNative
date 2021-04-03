@@ -13,7 +13,7 @@ export const getCountries = async ({ offset = 0, limit = 10, order = 'ASC', orde
         const body = await resp.json();
 
         if (body.ok) {
-            result.startCountries = body.paises[body.paises.length - 1]
+            result.startCountries = body.paises.length - 1
             result.countries.push(body)
         }
 
