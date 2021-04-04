@@ -68,7 +68,7 @@ export default function SearchScreen() {
                     handleInputChange(value)
                 }>
                 <Picker.Item label="Asia" value="Asia" />
-                <Picker.Item label="Sin continente" value="Sin continente" />
+                <Picker.Item label="Sin continente" value="." />
                 <Picker.Item label="Oceania" value="Oceania" />
                 <Picker.Item label="Africa" value="Africa" />
                 <Picker.Item label="Polar" value="Polar" />

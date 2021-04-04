@@ -72,7 +72,7 @@ export default function Navigation() {
                 <Tab.Screen
                     name="Search"
                     component={BusquedaStack}
-                    options={{ title: 'Buscar' }}
+                    options={{ title: 'Buscar / Opciones' }}
                 />
                 <Tab.Screen
                     name="Actividades"

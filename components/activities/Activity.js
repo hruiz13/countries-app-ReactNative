@@ -6,18 +6,18 @@ import { getCountries } from '../../actions/getCountries'
 import ListCountries from '../../components/countries/ListCountries'
 import Loading from '../../components/Loading'
 
-export default function CountrySearch({ navigation, route }) {
+export default function Activity({ navigation, route }) {
 
 
     const [startCountries, setStartCountries] = useState(0)
     const [countries, setCountries] = useState([])
     const [loading, setLoading] = useState(false)
-    const { busqueda, donde, order, orderBy, act } = route.params
+    const { busqueda, donde, order, orderBy } = route.params
     useFocusEffect(
         useCallback(() => {
             async function fetchData() {
                 setLoading(true)
-                const respuesta = await getCountries({ offset: startCountries, busqueda, donde, order, orderBy, act })
+                const respuesta = await getCountries({ offset: startCountries, busqueda, donde, order, orderBy, act: true })
                 if (respuesta.statusResponse) {
                     setStartCountries(startCountries + 10)
                     setCountries(respuesta.countries[0].paises)
@@ -33,7 +33,7 @@ export default function CountrySearch({ navigation, route }) {
             return
         }
         setLoading(true)
-        const respuesta = await getCountries({ offset: startCountries, busqueda, donde, order, orderBy, act })
+        const respuesta = await getCountries({ offset: startCountries, busqueda, donde, order, orderBy, act: true })
         if (respuesta.statusResponse) {
             setStartCountries(startCountries + 10)
             if (respuesta.countries.length > 0) {
