@@ -8,8 +8,9 @@ import { useNavigation } from '@react-navigation/native'
 import { Picker } from 'react-native';
 import Loading from '../components/Loading';
 import { getCountries } from '../helpers/getCountries';
+import { LogBox } from 'react-native';
 
-
+LogBox.ignoreLogs(['VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.']);
 
 const paises = [
     {
@@ -43,6 +44,8 @@ export default function AddScreen() {
         season: 'Verano',
         countries: []
     });
+
+
 
     const navigation = useNavigation();
 
@@ -169,161 +172,163 @@ export default function AddScreen() {
     }
 
     return (
-        <SafeAreaView style={styles.add}>
-            <View style={styles.form}>
-                <Input
-                    containerStyle={styles.input}
-                    placeholder="Ingrese el nombre de actividad..."
-                    onChange={e => handleChange(e, 'name')}
-                    errorMessage={nameError}
-                    defaultValue={formData.name}
-                />
-                <Text style={styles.campo}>
-                    Seleccione dificultad:
-                    </Text>
-                <View style={styles.diff}>
-                    <TouchableHighlight onPress={() => handleDifficulty(1)} >
-                        <Image
-                            style={styles.diffImage}
-                            source={require('../assets/lightblue.png')}
-
-                        />
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => handleDifficulty(2)} >
-                        <Image
-                            style={styles.diffImage}
-                            source={require('../assets/blue.png')}
-
-                        />
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => handleDifficulty(3)} >
-                        <Image
-                            style={styles.diffImage}
-                            source={require('../assets/green.png')}
-
-                        />
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => handleDifficulty(4)} >
-                        <Image
-                            style={styles.diffImage}
-                            source={require('../assets/yellow.png')}
-
-                        />
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => handleDifficulty(5)} >
-                        <Image
-                            style={styles.diffImage}
-                            source={require('../assets/red.png')}
-
-                        />
-                    </TouchableHighlight>
-                </View>
-                <View style={styles.diff}>
-                    <Text style={styles.diffText} onPress={() => handleDifficulty(1)} >Facil</Text>
-                    <Text style={styles.diffText} onPress={() => handleDifficulty(2)} >Normal</Text>
-                    <Text style={styles.diffText} onPress={() => handleDifficulty(3)} >Dificil</Text>
-                    <Text style={styles.diffText} onPress={() => handleDifficulty(4)} >Muy Dificil</Text>
-                    <Text style={styles.diffText} onPress={() => handleDifficulty(5)} >Extremo</Text>
-                </View>
-                <View>
-                    <Text style={styles.error}>
-                        {
-                            diffError !== '' ?
-                                diffError : ''
-                        }
-                    </Text>
-                </View>
-                <View style={styles.time}>
-                    <Text style={styles.campo}>Duracion:</Text>
+        <View style={styles.add}>
+            <ScrollView>
+                <View style={styles.form}>
                     <Input
-                        containerStyle={styles.inputHour}
-                        placeholder="Duracion"
-                        keyboardType="numeric"
-                        onChange={e => handleHora(e)}
+                        containerStyle={styles.input}
+                        placeholder="Ingrese el nombre de actividad..."
+                        onChange={e => handleChange(e, 'name')}
+                        errorMessage={nameError}
+                        defaultValue={formData.name}
                     />
-                    <Text>Horas</Text>
-                    <Input
-                        containerStyle={styles.inputHour}
-                        placeholder="Duracion"
-                        keyboardType="numeric"
-                        onChange={e => handleMin(e)}
-                    />
-                    <Text>Minutos</Text>
-                </View>
-                <View>
-                    <Text style={styles.error}>
-                        {
-                            durationError !== '' ?
-                                durationError : ''
-                        }
+                    <Text style={styles.campo}>
+                        Seleccione dificultad:
                     </Text>
-                </View>
-                <View>
-                    <Text style={styles.campoTemp}>Temporada:</Text>
-                    <Picker
-                        selectedValue={selectedTemporada}
-                        onValueChange={(value) =>
-                            handleInputChange(value)
-                        }>
-                        <Picker.Item label="Verano" value="Verano" />
-                        <Picker.Item label="Otoño" value="Otoño" />
-                        <Picker.Item label="Invierno" value="Invierno" />
-                        <Picker.Item label="Primavera" value="Primavera" />
-                    </Picker>
-                </View>
-                <View>
-                    <MultiSelect
-                        hideTags
-                        items={listaPaises}
-                        uniqueKey="id"
-                        onSelectedItemsChange={onSelectedItemsChange}
-                        selectedItems={selectedItems}
-                        selectText="Seleccione pais(es)"
-                        searchInputPlaceholderText="Buscar Pais..."
-                        onChangeInput={(text) => console.log(text)}
-                        tagRemoveIconColor="#CCC"
-                        tagBorderColor="#CCC"
-                        tagTextColor="#CCC"
-                        selectedItemTextColor="#CCC"
-                        selectedItemIconColor="#CCC"
-                        itemTextColor="#000"
-                        displayKey="name"
-                        searchInputStyle={{ color: '#CCC' }}
-                        submitButtonColor="#CCC"
-                        submitButtonText="Listo"
-                        styleMainWrapper={styles.multiStyle}
-                    />
-                    <View style={styles.listaPaises}>
-                        {
-                            selectedItems?.map((element, index) => {
-                                return (
-                                    <Text key={index} style={styles.listaPais}>{listaPaises[Number(element) - 1]?.name}</Text>
-                                )
+                    <View style={styles.diff}>
+                        <TouchableHighlight onPress={() => handleDifficulty(1)} >
+                            <Image
+                                style={styles.diffImage}
+                                source={require('../assets/lightblue.png')}
 
-                            })
-                        }
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => handleDifficulty(2)} >
+                            <Image
+                                style={styles.diffImage}
+                                source={require('../assets/blue.png')}
+
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => handleDifficulty(3)} >
+                            <Image
+                                style={styles.diffImage}
+                                source={require('../assets/green.png')}
+
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => handleDifficulty(4)} >
+                            <Image
+                                style={styles.diffImage}
+                                source={require('../assets/yellow.png')}
+
+                            />
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => handleDifficulty(5)} >
+                            <Image
+                                style={styles.diffImage}
+                                source={require('../assets/red.png')}
+
+                            />
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.diff}>
+                        <Text style={styles.diffText} onPress={() => handleDifficulty(1)} >Facil</Text>
+                        <Text style={styles.diffText} onPress={() => handleDifficulty(2)} >Normal</Text>
+                        <Text style={styles.diffText} onPress={() => handleDifficulty(3)} >Dificil</Text>
+                        <Text style={styles.diffText} onPress={() => handleDifficulty(4)} >Muy Dificil</Text>
+                        <Text style={styles.diffText} onPress={() => handleDifficulty(5)} >Extremo</Text>
                     </View>
                     <View>
                         <Text style={styles.error}>
                             {
-                                countriesError !== '' ?
-                                    countriesError : ''
+                                diffError !== '' ?
+                                    diffError : ''
                             }
                         </Text>
                     </View>
+                    <View style={styles.time}>
+                        <Text style={styles.campo}>Duracion:</Text>
+                        <Input
+                            containerStyle={styles.inputHour}
+                            placeholder="Duracion"
+                            keyboardType="numeric"
+                            onChange={e => handleHora(e)}
+                        />
+                        <Text>Horas</Text>
+                        <Input
+                            containerStyle={styles.inputHour}
+                            placeholder="Duracion"
+                            keyboardType="numeric"
+                            onChange={e => handleMin(e)}
+                        />
+                        <Text>Minutos</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.error}>
+                            {
+                                durationError !== '' ?
+                                    durationError : ''
+                            }
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.campoTemp}>Temporada:</Text>
+                        <Picker
+                            selectedValue={selectedTemporada}
+                            onValueChange={(value) =>
+                                handleInputChange(value)
+                            }>
+                            <Picker.Item label="Verano" value="Verano" />
+                            <Picker.Item label="Otoño" value="Otoño" />
+                            <Picker.Item label="Invierno" value="Invierno" />
+                            <Picker.Item label="Primavera" value="Primavera" />
+                        </Picker>
+                    </View>
+                    <View>
+                        <MultiSelect
+                            hideTags
+                            items={listaPaises}
+                            uniqueKey="id"
+                            onSelectedItemsChange={onSelectedItemsChange}
+                            selectedItems={selectedItems}
+                            selectText="Seleccione pais(es)"
+                            searchInputPlaceholderText="Buscar Pais..."
+                            onChangeInput={(text) => console.log(text)}
+                            tagRemoveIconColor="#CCC"
+                            tagBorderColor="#CCC"
+                            tagTextColor="#CCC"
+                            selectedItemTextColor="#CCC"
+                            selectedItemIconColor="#CCC"
+                            itemTextColor="#000"
+                            displayKey="name"
+                            searchInputStyle={{ color: '#CCC' }}
+                            submitButtonColor="#CCC"
+                            submitButtonText="Listo"
+                            styleMainWrapper={styles.multiStyle}
+                        />
+                        <View style={styles.listaPaises}>
+                            {
+                                selectedItems?.map((element, index) => {
+                                    return (
+                                        <Text key={index} style={styles.listaPais}>{listaPaises[Number(element) - 1]?.name}</Text>
+                                    )
+
+                                })
+                            }
+                        </View>
+                        <View>
+                            <Text style={styles.error}>
+                                {
+                                    countriesError !== '' ?
+                                        countriesError : ''
+                                }
+                            </Text>
+                        </View>
+                    </View>
+
+                    <Button
+                        containerStyle={styles.btnContainer}
+                        buttonStyle={styles.btn}
+                        title="Guardar"
+                        onPress={handleSubmit}
+
+                    />
+
                 </View>
-
-                <Button
-                    containerStyle={styles.btnContainer}
-                    buttonStyle={styles.btn}
-                    title="Guardar"
-                    onPress={handleSubmit}
-
-                />
-
-            </View>
-            <Loading isVisible={isLoading} text="Cargando paises" />
-        </SafeAreaView>
+                <Loading isVisible={isLoading} text="Cargando paises" />
+            </ScrollView>
+        </View>
     )
 
 }
@@ -331,6 +336,7 @@ export default function AddScreen() {
 const styles = StyleSheet.create({
     add: {
         backgroundColor: '#EDF7F3',
+        minHeight: '100%'
     },
     btn: {
         backgroundColor: '#4E6151',
